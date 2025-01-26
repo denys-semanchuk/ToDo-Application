@@ -12,6 +12,7 @@ export interface Task {
   id: number;
   text: string;
   completed: boolean;
+  timestamp: number;
 }
 
 export interface RootState {

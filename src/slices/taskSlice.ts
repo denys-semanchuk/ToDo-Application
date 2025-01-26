@@ -18,11 +18,16 @@ const taskSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
+    reorderTasks: (state, action: PayloadAction<Task[]>) => {
+      state.tasks = action.payload;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks));
+    },
     addTask: (state, action: PayloadAction<string>) => {
       state.tasks.push({
-        id: Date.now(),
+        id: state.tasks.length,
         text: action.payload,
         completed: false,
+        timestamp: new Date().getTime(),
       });
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks));
     },
@@ -47,6 +52,9 @@ const taskSlice = createSlice({
       } else {
         state.sort = SortType.ASC;
       }
+      state.tasks = state.tasks.sort((a, b) =>
+        state.sort === SortType.ASC ? a.timestamp - b.timestamp : b.timestamp - a.timestamp
+      );
     },
 
     updateTask: (
@@ -60,7 +68,14 @@ const taskSlice = createSlice({
     },
   },
 });
-export const { addTask, removeTask, toggleTask, setFilter, updateTask,setSortingByTime } =
-  taskSlice.actions;
+export const {
+  addTask,
+  removeTask,
+  toggleTask,
+  setFilter,
+  updateTask,
+  setSortingByTime,
+  reorderTasks,
+} = taskSlice.actions;
 
 export default taskSlice.reducer;
