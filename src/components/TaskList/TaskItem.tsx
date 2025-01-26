@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { Task } from '../../types'
 import { useDispatch } from 'react-redux'
 import { removeTask, toggleTask, updateTask } from '../../slices/taskSlice'

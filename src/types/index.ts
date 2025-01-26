@@ -4,6 +4,10 @@ export enum FilterType {
   COMPLETED = 'COMPLETED'
 }
 
+export enum SortType {
+  ASC = 'ASC',
+  DESC = 'DESC'
+}
 export interface Task {
   id: number;
   text: string;
@@ -14,5 +18,6 @@ export interface RootState {
   tasks: {
     tasks: Task[];
     filter: FilterType;
+    sort: SortType;
   }
 }

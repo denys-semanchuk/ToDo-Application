@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FilterType, RootState, Task } from '../../types'
+import { FilterType, RootState, SortType } from '../../types'
 import { TaskItem } from './TaskItem'
 import { useSelector } from 'react-redux'
 import { Notification } from '../Notification/Notification'
@@ -7,13 +7,12 @@ import { Notification } from '../Notification/Notification'
 
 export const TaskList: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
-
-  const { tasks, filter } = useSelector((state: RootState) => {
+  const { tasks, filter, sort } = useSelector((state: RootState) => {
     try {
       return state.tasks;
     } catch (err) {
       setError('Failed to load tasks');
-      return { tasks: [], filter: FilterType.ALL };
+      return { tasks: [], filter: FilterType.ALL, sort: SortType.ASC };
     }
   });
   if (error) {
@@ -27,7 +26,7 @@ export const TaskList: React.FC = () => {
   if (tasks.length === 0) {
     return <Notification message="No tasks yet" type="success" />;
   }
-  const filteredTasks = tasks.filter(task => {
+  let filteredTasks = tasks.filter(task => {
     switch (filter) {
       case FilterType.ACTIVE:
         return !task.completed;
@@ -37,6 +36,10 @@ export const TaskList: React.FC = () => {
         return true;
     }
   });
+
+  filteredTasks = filteredTasks.sort((a, b) => {
+    return sort === SortType.ASC ? a.id - b.id : b.id - a.id;
+  })
 
   return (
     <div className="min-w-full max-w-md p-4 bg-white rounded-lg shadow">

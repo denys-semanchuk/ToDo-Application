@@ -2,6 +2,7 @@ import React from 'react';
 import { TaskList } from './components/TaskList/TaskList';
 import { TaskForm } from './components/TaskForm/TaskForm';
 import { FilterButtons } from './components/FilterButtons/FilterButtons';
+import { SortButton } from './components/SortButton/SortButton';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <div className="bg-white rounded-lg shadow-lg p-6">
           <TaskForm />
           <FilterButtons />
+          <SortButton />
           <div className="mt-6">
             <TaskList />
           </div>
