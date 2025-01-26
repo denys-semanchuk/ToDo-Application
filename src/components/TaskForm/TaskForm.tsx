@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { addTask } from '../../slices/taskSlice';
 import { Notification } from '../Notification/Notification';
 
-const MAX_LENGTH = 300;
+const MAX_LENGTH = 200;
 
 export const TaskForm = () => {
   const dispatch = useDispatch()

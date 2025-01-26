@@ -4,6 +4,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { Task } from '../../types';
 import { removeTask, toggleTask, updateTask } from '../../slices/taskSlice';
 import { useDispatch } from 'react-redux';
+import { AutoResizeTextArea } from '../AutoResizeTextarea/AutoResizeTextArea';
 
 interface Props {
   task: Task;
@@ -55,19 +56,19 @@ export const SortableTaskItem: React.FC<Props> = ({ task }) => {
 
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <label className="flex items-center space-x-3">
+                <label className="flex items-center space-x-3 w-full">
                   <input
                     type="checkbox"
                     checked={task.completed}
                     onChange={handleChange}
                     className="w-4 h-4 accent-blue-500 cursor-pointer"
                   />
-                  <input
-                    className={`${task.completed ? 'line-through text-gray-400' : 'text-gray-700'
-                      } focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2`}
-                    type="text"
-                    defaultValue={task.text}
+                  <AutoResizeTextArea
+                    value={task.text}
                     onChange={handleTaskTextChange}
+                    className={`w-full ${task.completed ? 'line-through text-gray-400' : 'text-gray-700'
+                      } focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2`}
+                    maxLength={300}
                   />
                 </label>
                 <button
