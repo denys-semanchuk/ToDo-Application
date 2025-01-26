@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Task } from '../../types';
-import { removeTask, toggleTask, updateTask } from '../../slices/taskSlice';
+import { removeTask, toggleImportant, toggleTask, updateTask } from '../../slices/taskSlice';
 import { useDispatch } from 'react-redux';
 import { AutoResizeTextArea } from '../AutoResizeTextarea/AutoResizeTextArea';
 
@@ -53,7 +53,14 @@ export const SortableTaskItem: React.FC<Props> = ({ task }) => {
             >
               ⋮⋮
             </div>
-
+            <button
+              onClick={() => dispatch(toggleImportant(task.id))}
+              title='add to important'
+              className={`mr-2 text-xl ${task.important ? 'text-yellow-400' : 'text-gray-400'}`}
+            >
+              ★
+            </button>
+            {/* Task */}
             <div className="flex-1">
               <div className="flex items-center justify-between">
                 <label className="flex items-center space-x-3 w-full">
@@ -71,6 +78,7 @@ export const SortableTaskItem: React.FC<Props> = ({ task }) => {
                     maxLength={300}
                   />
                 </label>
+
                 <button
                   onClick={handleDelete}
                   className="text-red-500 hover:text-red-700 p-1"

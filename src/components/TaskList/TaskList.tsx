@@ -3,9 +3,9 @@ import { FilterType, RootState, SortType } from '../../types'
 import { useSelector, useDispatch } from 'react-redux'
 import { Notification } from '../Notification/Notification'
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { SortableTaskItem } from './SortableTaskItem';
-import { reorderTasks } from '../../slices/taskSlice';
+import { clearCompleted, reorderTasks } from 'slices/taskSlice';
 
 export const TaskList: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
@@ -35,12 +35,14 @@ export const TaskList: React.FC = () => {
   if (tasks.length === 0) {
     return <Notification message="No tasks yet" type="success" />;
   }
-  let filteredTasks = tasks.filter(task => {
+  const filteredTasks = tasks.filter(task => {
     switch (filter) {
       case FilterType.ACTIVE:
         return !task.completed;
       case FilterType.COMPLETED:
         return task.completed;
+      case FilterType.IMPORTANT:
+        return task.important;
       default:
         return true;
     }
@@ -76,6 +78,18 @@ export const TaskList: React.FC = () => {
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
     >
+      {tasks.some(task => task.completed) && (
+        <button
+          onClick={() => {
+            if (window.confirm('Are you sure you want to clear completed tasks?')) {
+              dispatch(clearCompleted());
+            }
+          }}
+          className="mt-4 px-4 py-2 text-sm text-red-600 hover:text-red-800 transition-colors"
+        >
+          Clear completed tasks
+        </button>
+      )}
       <SortableContext
         items={filteredTasks.map(task => task.id)}
         strategy={verticalListSortingStrategy}

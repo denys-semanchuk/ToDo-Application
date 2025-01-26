@@ -27,9 +27,17 @@ const taskSlice = createSlice({
         id: state.tasks.length,
         text: action.payload,
         completed: false,
+        important: false,
         timestamp: new Date().getTime(),
       });
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks));
+    },
+    toggleImportant: (state, action: PayloadAction<number>) => {
+      const task = state.tasks.find((task) => task.id === action.payload);
+      if (task) {
+        task.important = !task.important;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks));
+      }
     },
     toggleTask: (state, action: PayloadAction<number>) => {
       const task = state.tasks.find((task) => task.id === action.payload);
@@ -66,6 +74,11 @@ const taskSlice = createSlice({
       task.text = action.payload.text;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks));
     },
+
+    clearCompleted: (state) => {
+      state.tasks = state.tasks.filter(task => !task.completed);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks));
+    },
   },
 });
 export const {
@@ -76,6 +89,8 @@ export const {
   updateTask,
   setSortingByTime,
   reorderTasks,
+  toggleImportant,
+  clearCompleted,
 } = taskSlice.actions;
 
 export default taskSlice.reducer;
