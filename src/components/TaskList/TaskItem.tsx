@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Task } from '../../types'
 import { useDispatch } from 'react-redux'
-import { removeTask, toggleTask } from '../../slices/taskSlice'
+import { removeTask, toggleTask, updateTask } from '../../slices/taskSlice'
 
 
 export const TaskItem = ({ task }: { task: Task }) => {
@@ -10,6 +10,11 @@ export const TaskItem = ({ task }: { task: Task }) => {
   const handleChange = () => {
     dispatch(toggleTask(task.id))
   }
+
+  const handleTaskTextChange = (e: any) => {
+    dispatch(updateTask({ id: task.id, text: e.target.value }))
+  }
+
   const handleDelete = () => {
     elementRef.current?.classList.add('task-exit')
 
@@ -25,12 +30,11 @@ export const TaskItem = ({ task }: { task: Task }) => {
             checked={task.completed} onChange={handleChange}
             className="w-4 h-4 accent-blue-500 cursor-pointer"
           />
-          <span className={`${task.completed
-            ? 'line-through text-gray-400'
-            : 'text-gray-700'
-            }`}>
-            {task.text}
-          </span>
+          <input
+            className={`${task.completed
+              ? 'line-through text-gray-400'
+              : 'text-gray-700'
+              }`} type="text" defaultValue={task.text} onChange={handleTaskTextChange}/>
         </label>
         <button
           onClick={handleDelete}
