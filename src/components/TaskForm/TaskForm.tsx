@@ -21,7 +21,7 @@ export const TaskForm = () => {
   return (
     <>
       <form
-        className="min-w-full flex flex-col gap-2 w-full max-w-md p-4">
+        className="min-w-full flex flex-col gap-2 w-full max-w-md">
         <input
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={taskText}

@@ -37,9 +37,7 @@ export const TaskList: React.FC = () => {
     }
   });
 
-  filteredTasks = filteredTasks.sort((a, b) => {
-    return sort === SortType.ASC ? a.id - b.id : b.id - a.id;
-  })
+  filteredTasks = filteredTasks.sort((a, b) => sort === SortType.ASC ? a.id - b.id : b.id - a.id)
 
   return (
     <div className="min-w-full max-w-md p-4 bg-white rounded-lg shadow">
