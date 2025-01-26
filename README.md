@@ -38,21 +38,18 @@ npm install
 
 # Start development server
 npm start
-```
-
-## Project Structure
-
+##Project Structure
 src/
 ├── components/
-│ ├── TaskList/
-│ ├── TaskForm/
-│ ├── FilterButtons/
-│ └── Notification/
+│   ├── TaskList/
+│   ├── TaskForm/
+│   ├── FilterButtons/
+│   └── Notification/
 ├── store/
-│ └── store.ts
+│   └── store.ts
 ├── slices/
-│ └── taskSlice.ts
+│   └── taskSlice.ts
 ├── types/
-│ └── index.ts
+│   └── index.ts
 └── styles/
-└── index.css
+    └── index.css
