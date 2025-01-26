@@ -6,6 +6,7 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { SortableTaskItem } from './SortableTaskItem';
 import { clearCompleted, reorderTasks } from 'slices/taskSlice';
+import { ClearCompletedBtn } from 'components/ClearCompletedBtn/ClearCompletedBtn';
 
 export const TaskList: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
@@ -78,18 +79,6 @@ export const TaskList: React.FC = () => {
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
     >
-      {tasks.some(task => task.completed) && (
-        <button
-          onClick={() => {
-            if (window.confirm('Are you sure you want to clear completed tasks?')) {
-              dispatch(clearCompleted());
-            }
-          }}
-          className="mt-4 px-4 py-2 text-sm text-red-600 hover:text-red-800 transition-colors"
-        >
-          Clear completed tasks
-        </button>
-      )}
       <SortableContext
         items={filteredTasks.map(task => task.id)}
         strategy={verticalListSortingStrategy}
@@ -99,6 +88,7 @@ export const TaskList: React.FC = () => {
             <SortableTaskItem key={task.id} task={task} />
           ))}
         </div>
+        <ClearCompletedBtn tasks={tasks}/>
       </SortableContext>
     </DndContext>
   );
