@@ -1,8 +1,8 @@
 import React from 'react';
-import { TaskList } from './components/TaskList/TaskList';
-import { TaskForm } from './components/TaskForm/TaskForm';
-import { FilterButtons } from './components/FilterButtons/FilterButtons';
-import { SortButton } from './components/SortButton/SortButton';
+import { TaskList } from 'components/TaskList/TaskList';
+import { TaskForm } from 'components/TaskForm/TaskForm';
+import { FilterButtons } from 'components/FilterButtons/FilterButtons';
+import { SortButton } from 'components/SortButton/SortButton';
 
 function App() {
   return (

@@ -5,8 +5,9 @@ import { Notification } from '../Notification/Notification'
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { SortableTaskItem } from './SortableTaskItem';
-import { clearCompleted, reorderTasks } from 'slices/taskSlice';
+import { reorderTasks } from 'slices/taskSlice';
 import { ClearCompletedBtn } from 'components/ClearCompletedBtn/ClearCompletedBtn';
+import { ProgressBar } from 'components/ProgressBar/ProgressBar';
 
 export const TaskList: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
@@ -49,7 +50,7 @@ export const TaskList: React.FC = () => {
     }
   });
 
-
+  const completedTasks = tasks.filter(task => task.completed).length;
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -84,11 +85,12 @@ export const TaskList: React.FC = () => {
         strategy={verticalListSortingStrategy}
       >
         <div className="space-y-2">
+          <ProgressBar completed={completedTasks} total={tasks.length} />
           {filteredTasks.map((task) => (
             <SortableTaskItem key={task.id} task={task} />
           ))}
         </div>
-        <ClearCompletedBtn tasks={tasks}/>
+        <ClearCompletedBtn tasks={tasks} />
       </SortableContext>
     </DndContext>
   );
