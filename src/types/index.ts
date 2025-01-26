@@ -1,7 +1,8 @@
 export enum FilterType {
   ALL = 'ALL',
   ACTIVE = 'ACTIVE',
-  COMPLETED = 'COMPLETED'
+  COMPLETED = 'COMPLETED',
+  IMPORTANT = 'IMPORTANT'
 }
 
 export enum SortType {
@@ -13,6 +14,7 @@ export interface Task {
   text: string;
   completed: boolean;
   timestamp: number;
+  important: boolean;
 }
 
 export interface RootState {
