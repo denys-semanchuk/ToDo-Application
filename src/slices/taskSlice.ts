@@ -99,6 +99,7 @@ export const {
   reorderTasks,
   toggleImportant,
   clearCompleted,
+  setPriority,
 } = taskSlice.actions;
 
 export default taskSlice.reducer;

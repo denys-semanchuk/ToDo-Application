@@ -2,9 +2,10 @@ import React, { useRef } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Task } from '../../types';
-import { removeTask, toggleImportant, toggleTask, updateTask } from '../../slices/taskSlice';
+import { removeTask, setPriority, toggleImportant, toggleTask, updateTask } from '../../slices/taskSlice';
 import { useDispatch } from 'react-redux';
-import { AutoResizeTextArea } from '../AutoResizeTextarea/AutoResizeTextArea';
+import { AutoResizeTextArea } from 'components/AutoResizeTextarea/AutoResizeTextArea';
+import { PrioritySelect } from 'components/PrioritySelect/PrioritySelect';
 
 interface Props {
   task: Task;
@@ -43,7 +44,7 @@ export const SortableTaskItem: React.FC<Props> = ({ task }) => {
   return (
     <li ref={elementRef} className="border-b border-gray-200 last:border-none list-none" id={`task-${task.id}`}>
       <div ref={setNodeRef} style={style} className="list-none">
-        <div className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200">
+        <div className={`p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 ${task.important ? 'border-l-4 border-yellow-400' : ''}}`}>
           <div className="flex items-center">
             {/* Drag Handle */}
             <div
@@ -63,6 +64,12 @@ export const SortableTaskItem: React.FC<Props> = ({ task }) => {
             {/* Task */}
             <div className="flex-1">
               <div className="flex items-center justify-between">
+                <PrioritySelect
+                  priority={task.priority}
+                  onChange={(priority) =>
+                    dispatch(setPriority({ id: task.id, priority }))
+                  }
+                />
                 <label className="flex items-center space-x-3 w-full">
                   <input
                     type="checkbox"
