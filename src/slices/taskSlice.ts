@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SortType, Task } from "../types";
-import { FilterType } from "../types";
+import { Priority, SortType, Task, FilterType } from "../types";
 
 const STORAGE_KEY = "tasks";
 
@@ -28,6 +27,7 @@ const taskSlice = createSlice({
         text: action.payload,
         completed: false,
         important: false,
+        priority: Priority.MEDIUM,
         timestamp: new Date().getTime(),
       });
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks));
@@ -78,6 +78,14 @@ const taskSlice = createSlice({
     clearCompleted: (state) => {
       state.tasks = state.tasks.filter(task => !task.completed);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks));
+    },
+
+    setPriority: (state, action: PayloadAction<{ id: number; priority: Priority }>) => {
+      const task = state.tasks.find(task => task.id === action.payload.id);
+      if (task) {
+        task.priority = action.payload.priority;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks));
+      }
     },
   },
 });
